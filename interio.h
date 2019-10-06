@@ -1,3 +1,11 @@
+/*
+* Developed by Vitor Assis Camargo, at 2019
+* version 1.0.1
+* Certify you have conio2.h installed in your PC before using this library
+* THIS ONLY RUNS ON WINDOWS MACHINES!
+* If you like, please, comment and share it.
+*/
+
 #include <conio2.h>
 #include <locale.h>
 #include <string.h>
@@ -6,7 +14,7 @@
 
 #define clearScreen clrscr
 
-void clearCoordinates(int xi, int yi, int xf=0, int yf=0){ 	//LIMPA COORDENADAS (MELHORA PROCESSAMENTO)
+void clearCoordinates(int xi, int yi, int xf=0, int yf=0){ 	
 	xi = xi<1? 1 : xi;
 	yi = yi<1? 1 : yi;
 	
@@ -37,26 +45,26 @@ void drawLine(int start, int finish, int coordinate, int horizontal=0){
 }
 
 void drawCanvas(){ 	
-	drawLine(1, 80, 1); //TOPO
-	drawLine(1, 24, 1, 1); //ESQUERDA
-	drawLine(1, 80, 24); //BAIXO
-	drawLine(1, 24, 80, 1); //DIREITA
+	drawLine(1, 80, 1); //TOP
+	drawLine(1, 24, 1, 1); //LEFT
+	drawLine(1, 80, 24); //BOTTOM
+	drawLine(1, 24, 80, 1); //RIGHT
 	
 }
 
-void removeToast(){
+void removeToast(){ //REMOVE NOTIFICATION TEXT
 	clearCoordinates(2, 22, 79, 22);
 }
 
-int centralize(const char texto[]){
+int centralize(const char texto[]){ //CENTRALIZE TEXT
 	return (78-strlen(texto))/2;
 }
 
-void showToast(const char texto[]){
+void showToast(const char texto[]){ //SHOW NOTIFICATION TEXT
 	removeToast();
 	gotoxy(centralize(texto), 22);printf("* %s *", texto);
 }
-int readIntVariable(int xi, int yi, int xf, int yf, int previous=0){
+int readIntVariable(int xi, int yi, int xf, int yf, int previous=0){ //IT SHOWS INT INPUT
 	int aux;
 	int clear_untill;
 	clearCoordinates(xi, yi, xf, yf);
@@ -74,7 +82,7 @@ int readIntVariable(int xi, int yi, int xf, int yf, int previous=0){
 	return aux;
 }
 
-float readFloatVariable(int xi, int yi, int xf, int yf, float previous=0){
+float readFloatVariable(int xi, int yi, int xf, int yf, float previous=0){ //IT SHOWS FLOAT INPUT
 	float aux;
 	int clear_untill;
 	clearCoordinates(xi, yi, xf, yf);
@@ -91,7 +99,7 @@ float readFloatVariable(int xi, int yi, int xf, int yf, float previous=0){
 	return aux;
 }
 
-void readStringVariable(char variable[], int xi, int yi, int xf, int yf, int previous = 0){
+void readStringVariable(char variable[], int xi, int yi, int xf, int yf, int previous = 0){ //IT SHOWS STRING INPUT
 	int clear_untill;
 	char ancient[40];
 	clearCoordinates(xi, yi, xf, yf);
@@ -112,7 +120,7 @@ void readStringVariable(char variable[], int xi, int yi, int xf, int yf, int pre
 	}
 }
 
-int showMenu(char options[][50], int min, int max, int x=9, char cursor=187){
+int showMenu(char options[][50], int min, int max, int x=9, char cursor=187){ //IT SHOWS CUSTOMIZED VERTICAL MENU AND RETURNS THE COORDINATE
 	int coord = min;
 	char tecla;
 	int size = max-min;
