@@ -8,20 +8,6 @@
 #include "exaustiva_com_sentinela.cpp"
 #include "sequencial_indexada.cpp"
 
-void dumpIntVector(int vetor[], int size){
-
-	clearScreen();
-	
-	printf("Array => (\n");
-	for(int i=0; i<size; i++){
-		printf("\t[%d] => %d\n", i, vetor[i]);
-	}
-	printf(")");
-	getch();
-	clearScreen();
-	drawCanvas();
-}
-
 void ordenate(int vetor[], int new_vetor[], int size){
 	for (int i=0; i<size; i++)
 		new_vetor[i] = vetor[i];
@@ -32,9 +18,7 @@ void ordenate(int vetor[], int new_vetor[], int size){
 				new_vetor[i] ^= new_vetor[j];
 				new_vetor[j] ^= new_vetor[i];
 				new_vetor[i] ^= new_vetor[j];
-			}
-		
-		
+			}		
 }
 
 void inputVector(int vetor[], int &size){
@@ -65,15 +49,18 @@ void compare(int vector[], int size){
 		clearCanvas();
 		gotoxy(30, 8);printf("Número: ");
 		busca = readIntVariable(38, 8, 50, 8);
-		char options[6][50];
-		strcpy(options[0], "Mudar Número");
-		strcpy(options[1], "Busca Exaustiva");
-		strcpy(options[2], "Busca Exaustiva Com Sentinela");
-		strcpy(options[3], "Busca Sequencial Indexada");
-		strcpy(options[4], "Busca Binária");
-		strcpy(options[5], "Voltar");
+		
+		menu searchMenu = setMenu(10, 14);
+	
+		addMenuOption(searchMenu, "Mudar Número", 1);
+		addMenuOption(searchMenu, "Busca Exaustiva", 1);
+		addMenuOption(searchMenu, "Busca Exaustiva Com Sentinela", 0);
+		addMenuOption(searchMenu, "Busca Binária", 0);
+		addMenuOption(searchMenu, "Voltar", 1);
+								
+		searchMenu.cursor = 185;
 		do{
-			coord = showMenu(options, 10, 15, 30);
+			coord = showMenu(searchMenu);
 			clearCoordinates(10, 20, 20, 21);
 			switch(coord){
 				case 11:
@@ -102,9 +89,9 @@ void compare(int vector[], int size){
 					getch();	
 					break;
 			}
-		}while(coord != 15 && coord != 10);
+		}while(coord != 14 && coord != 10);
 		
-	}while(busca != 0 && coord != 15);
+	}while(busca != 0 && coord != 14);
 }
 
 int main(){
@@ -113,17 +100,19 @@ int main(){
 	int vector[TF+1];
 	int size = 0;
 	
-	char opcoes[4][50];
-	strcpy(opcoes[0], "Cadastrar");
-	strcpy(opcoes[1], "Testar");
-	strcpy(opcoes[2], "Ver vetor");
-	strcpy(opcoes[3], "Sair");
+	menu mainMenu = setMenu(10, 13);
+	
+	addMenuOption(mainMenu, "Cadastrar", 1);
+	addMenuOption(mainMenu, "Testar", 1);
+	addMenuOption(mainMenu, "Ver vetor", 1);
+	addMenuOption(mainMenu, "Sair", 1);
+	mainMenu.cursor=185;
 		
 	int coord;
 	
 	do{
 		clearCanvas();
-		coord = showMenu(opcoes,10, 13, 30);
+		coord = showMenu(mainMenu);
 		switch(coord){
 			case 10:
 				inputVector(vector, size);
