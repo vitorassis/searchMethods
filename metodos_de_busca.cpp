@@ -7,6 +7,7 @@
 #include "exaustiva.cpp"
 #include "exaustiva_com_sentinela.cpp"
 #include "sequencial_indexada.cpp"
+#include "binaria.cpp"
 
 void ordenate(int vetor[], int new_vetor[], int size){
 	for (int i=0; i<size; i++)
@@ -44,54 +45,56 @@ void compare(int vector[], int size){
 	clearCanvas();
 	int busca;
 	int coord;
-	int index, steps, ord_vetor[TF];
+	int index, steps, iteracoes, ord_vetor[TF];
 	do{
 		clearCanvas();
 		gotoxy(30, 8);printf("Número: ");
 		busca = readIntVariable(38, 8, 50, 8);
 		
-		menu searchMenu = setMenu(10, 14);
+		menu searchMenu = setMenu(10, 15);
 	
 		addMenuOption(searchMenu, "Mudar Número", 1);
 		addMenuOption(searchMenu, "Busca Exaustiva", 1);
-		addMenuOption(searchMenu, "Busca Exaustiva Com Sentinela", 0);
-		addMenuOption(searchMenu, "Busca Binária", 0);
+		addMenuOption(searchMenu, "Busca Exaustiva Com Sentinela", 1);
+		addMenuOption(searchMenu, "Busca Sequencial Indexada", 1);
+		addMenuOption(searchMenu, "Busca Binária", 1);
 		addMenuOption(searchMenu, "Voltar", 1);
-								
+		
 		searchMenu.cursor = 185;
 		do{
 			coord = showMenu(searchMenu);
 			clearCoordinates(10, 20, 20, 21);
 			switch(coord){
 				case 11:
-					index = busca_exaustiva_benchmark(vector, size, busca, steps);
-					
-					gotoxy(10, 20); printf("Índice: %d", index);
-					gotoxy(10, 21); printf("Passos: %d", steps);			
-					getch();	
+					index = busca_exaustiva_benchmark(vector, size, busca, steps, iteracoes);
+						
 					break;	
 				case 12:
-					index = busca_exaustiva_com_sentila_benckmark(vector, size, busca, steps);
+					index = busca_exaustiva_com_sentila_benckmark(vector, size, busca, steps, iteracoes);
 					
-					gotoxy(10, 20); printf("Índice: %d", index);
-					gotoxy(10, 21); printf("Passos: %d", steps);			
-					getch();	
 					break;
 				case 13:
 					ordenate(vector, ord_vetor, size);
 					
-					index = busca_sequencial_indexada_benchmark(ord_vetor, size, busca, steps);
+					index = busca_sequencial_indexada_benchmark(ord_vetor, size, busca, steps, iteracoes);
 					
-				//	dumpIntVector(ord_vetor, size);
-					
-					gotoxy(10, 20); printf("Índice: %d", index);
-					gotoxy(10, 21); printf("Passos: %d", steps);			
-					getch();	
 					break;
+				case 14:
+					ordenate(vector, ord_vetor, size);
+					
+					index = busca_binaria_benchmark(ord_vetor, size, busca, steps, iteracoes);
 			}
-		}while(coord != 14 && coord != 10);
+			
+			clearCoordinates(10, 19, 78, 21);
+			gotoxy(10, 19); printf("Índice: %d", index);
+			gotoxy(10, 20); printf("Passos: %d", steps);
+			gotoxy(10, 21); printf("Iterações: %d", iteracoes);	
+			
+			if(coord != 15)
+				getch();
+		}while(coord != 15 && coord != 10);
 		
-	}while(busca != 0 && coord != 14);
+	}while(busca != 0 && coord != 15);
 }
 
 int main(){
@@ -122,6 +125,10 @@ int main(){
 				break;
 			case 12:
 				dumpIntVector(vector, size);
+				getch();
+				int ord_vet [TF];
+				ordenate(vector, ord_vet, size);
+				dumpIntVector(ord_vet, size);
 		}
 	}while(coord != 13);
 	
